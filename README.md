@@ -2,7 +2,6 @@
 
 The micro lib for web scraping of Neuroteks
 
-
 ```bash
 .
 ├── Core
