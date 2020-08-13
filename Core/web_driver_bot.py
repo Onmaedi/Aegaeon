@@ -4,7 +4,7 @@ import platform
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from uuid import uuid4
-
+from pyautogui import (confirm, alert)
 
 class WebDriverBot(Chrome):
     def __init__(self,
@@ -24,6 +24,7 @@ class WebDriverBot(Chrome):
         super().__init__(executable_path=self.__web_driver_path(web_driver_path=executable_path),
                          options=self.__web_driver_bot_config(temp_download_folder_path=temp_download_path),
                          service_log_path=self.__get_log_path)
+        self.implicitly_wait(10)
 
     @property
     def __get_log_path(self):
@@ -96,6 +97,35 @@ class WebDriverBot(Chrome):
         })
 
         return options
+
+    @staticmethod
+    def confirm_pop_up(title: str = "Please confirm",
+                       text: str = "Confirm?",
+                       buttons: list = None):
+        """
+
+        :param title: str contains the title of pop-up
+        :param text: str contains the text of pop-up
+        :param buttons: str contains the buttons of pop-up
+        :return: the text of button pressed
+        """
+        if not buttons:
+            buttons = ["Confirm", "Cancel"]
+
+        return confirm(text, title, buttons)
+
+    @staticmethod
+    def alert_pop_up(title: str = "Alert",
+                     text: str = "Something went wrong",
+                     button: str = "Ok"):
+        """
+
+        :param title: str contains the title of pop-up
+        :param text: str contains the text of pop-up
+        :param button: str contains the text of button
+        :return: the text of button pressed
+        """
+        return alert(text, title, button)
 
     def __del__(self):
         self.close()
