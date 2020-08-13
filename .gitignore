@@ -30,7 +30,7 @@ MANIFEST
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
+*.manifesthttps://neuroteks.slack.com/archives/D018D1EELBY
 *.spec
 
 # Installer logs
@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.idea
