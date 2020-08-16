@@ -6,25 +6,38 @@ from selenium.webdriver.chrome.options import Options
 from uuid import uuid4
 from pyautogui import (confirm, alert)
 
+
 class WebDriverBot(Chrome):
+
     def __init__(self,
-                 executable_path: str = None,
-                 temp_download_path: str = None,
-                 enable_log: bool = False):
+                 driver_path: str,
+                 temp_download_path: str,
+                 enable_log: bool,
+                 bot_name: str = "WebDriverBot"):
         """
         WebDriverBot constructor returns a WebDriverBot instance.
         The WebDriverBot is an inheritance of Selenium Chrome Driver
-        :param executable_path:
+        :param driver_path:
         :param temp_download_path:
+        :param bot_name:
         :param enable_log:
         """
 
+        self.__bot_name = bot_name
         self.enable_log = enable_log
 
-        super().__init__(executable_path=self.__web_driver_path(web_driver_path=executable_path),
+        super().__init__(executable_path=self.__web_driver_path(web_driver_path=driver_path),
                          options=self.__web_driver_bot_config(temp_download_folder_path=temp_download_path),
                          service_log_path=self.__get_log_path)
         self.implicitly_wait(10)
+
+    @property
+    def bot_name(self):
+        return self.__bot_name
+
+    @bot_name.setter
+    def bot_name(self, value):
+        self.__bot_name = value
 
     @property
     def __get_log_path(self):
@@ -34,7 +47,7 @@ class WebDriverBot(Chrome):
         if not path.isdir(log_path):
 
             os.mkdir(log_path)
-        return path.join(log_path, f"log-{uuid4()}.txt")
+        return path.join(log_path, f"log-{self.bot_name}_{str(uuid4())}.txt")
 
     @staticmethod
     def __web_driver_path(web_driver_path: str = None) -> str:
@@ -127,5 +140,5 @@ class WebDriverBot(Chrome):
         """
         return alert(text, title, button)
 
-    def __del__(self):
-        self.close()
+    def run(self):
+        raise NotImplementedError("This method needs to be implemented by user")
